@@ -3,12 +3,19 @@
 import React from "react";
 import Link from "next/link";
 import { signup } from "@/src/actions";
+import { redirect } from "next/navigation";
 const Signup = () => {
+  const handleSubmit = async (formData: FormData) => {
+    const result = await signup(formData);
+    alert(result.message);
+    if (result.success) redirect("/login");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className=" flex flex-col">
         <h1 className="text-2xl font-semibold">Create an account</h1>
-        <form action={signup} className="flex flex-col gap-y-4 mt-4">
+        <form action={handleSubmit} className="flex flex-col gap-y-4 mt-4">
           <input
             type="text"
             name="nickname"
@@ -32,7 +39,7 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="bg-stone-50 text-stone-800 p-2 rounded-lg"
+            className="bg-stone-50 text-stone-800 p-2 rounded-lg  cursor-pointer mt-6"
           >
             Signup
           </button>

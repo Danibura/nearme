@@ -3,12 +3,20 @@
 import React from "react";
 import Link from "next/link";
 import { login } from "@/src/actions";
-const Login = () => {
+import { redirect } from "next/navigation";
+
+export default function Login() {
+  const handleLogin = async (formData: FormData) => {
+    const res = await login(formData);
+    alert(res.message);
+    if (res.success) redirect("/profile");
+  };
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className=" flex flex-col">
         <h1 className="text-2xl font-semibold">Log into your account</h1>
-        <form action={login} className="flex flex-col gap-y-4 mt-4">
+        <form action={handleLogin} className="flex flex-col gap-y-4 mt-4">
           <input
             type="text"
             name="username"
@@ -24,7 +32,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="bg-stone-50 text-stone-800 p-2 rounded-lg"
+            className="bg-stone-50 text-stone-800 p-2 rounded-lg mt-6"
           >
             Login
           </button>
@@ -38,6 +46,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}
